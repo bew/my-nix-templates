@@ -20,8 +20,10 @@
 
         devshells.default =  {
           packages = with pkgs; [
+            rustc # important for good editor support somehow
+            gcc # necessary for `cargo build/run`
+
             cargo
-            rustc
             rustPackages.clippy
           ];
         };

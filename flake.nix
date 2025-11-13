@@ -3,40 +3,67 @@
     My Nix templates to bootstrap a few types of projects.
   '';
 
-  outputs = inputs: let
-    makeWelcomeText = text: ''
-      ${text}
+  inputs = {
+    nixpkgs-lib-only.url = "github:nix-community/nixpkgs.lib";
+  };
 
-      Optionally, setup direnv with: `echo "use flake" > .envrc`
-    '';
+  outputs = inputs: let
+    lib = inputs.nixpkgs-lib-only.lib;
+    defaultPreSteps = [
+      ''Setup git''
+      ''(Setup direnv with e.g. `echo "use flake" > .envrc`)''
+    ];
+    defaultPostSteps = [ ''.. and do something cool! 🚀'' ];
+    whatsNext = {
+      preSteps ? defaultPreSteps,
+      mainSteps ? [],
+      postSteps ? defaultPostSteps,
+    }: (
+      let allSteps = preSteps ++ mainSteps ++ postSteps;
+      in lib.concatMapStringsSep "\n" (s: "- ${s}") (allSteps)
+    );
   in {
     templates.default = {
       description = "A basic project bootstrap";
       path = ./default;
-      welcomeText = makeWelcomeText ''
+      welcomeText = ''
         Now you have a basic project o/
 
-        👉 Do something cool!
+        👉 Now you can...
+
+        ${whatsNext {}}
       '';
     };
 
     templates.rust-simple = {
-      description = "A basic Rust project setup (run `cargo init` to start!)";
+      description = "A basic Rust project setup, using nixpkgs builder";
       path = ./rust-simple;
-      welcomeText = makeWelcomeText ''
-        Now you have a basic Rust project o/
+      welcomeText = ''
+        Now you have a basic Rust project (using nixpkgs builder) o/
 
-        👉 Run `cargo init` to start, and do something cool!
+        👉 Now you can...
+
+        ${whatsNext {
+          mainSteps = [
+            "Run `cargo init` to start a project"
+          ];
+        }}
       '';
     };
 
     templates.rust-naersk = {
-      description = "A basic Rust project setup using naersk (run `cargo init` to start!)";
+      description = "A basic Rust project setup, using naersk builder";
       path = ./rust-naersk;
-      welcomeText = makeWelcomeText ''
-        Now you have a basic Rust project (using naersk) o/
+      welcomeText = ''
+        Now you have a basic Rust project (using naersk builder) o/
 
-        👉 Run `cargo init` to start, and do something cool!
+        👉 Now you can...
+
+        ${whatsNext {
+          mainSteps = [
+            "Run `cargo init` to start a project"
+          ];
+        }}
       '';
     };
   };

@@ -12,7 +12,7 @@
       imports = [ inputs.devshell.flakeModule ];
 
       perSystem = { pkgs, ... }: {
-        packages.default = rustPlatform.buildRustPackage {
+        packages.default = pkgs.rustPlatform.buildRustPackage {
           name = "myprog";
           src = ./.;
           cargoHash = ""; # FIXME: TO FILL!
@@ -20,8 +20,10 @@
 
         devshells.default =  {
           packages = with pkgs; [
+            rustc # important for good editor support somehow
+            gcc # necessary for `cargo build/run`
+
             cargo
-            rustc
             rustPackages.clippy
           ];
         };
