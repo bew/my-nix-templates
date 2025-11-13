@@ -7,16 +7,16 @@
     makeWelcomeText = text: ''
       ${text}
 
-      Optionally, setup direnv with:
-        echo "use flake" > .envrc
+      Optionally, setup direnv with: `echo "use flake" > .envrc`
     '';
   in {
     templates.default = {
       description = "A basic project bootstrap";
       path = ./default;
       welcomeText = makeWelcomeText ''
-        Now you have a basic project..
-        Do something cool!
+        Now you have a basic project o/
+
+        👉 Do something cool!
       '';
     };
 
@@ -24,9 +24,9 @@
       description = "A basic Rust project setup (run `cargo init` to start!)";
       path = ./rust-simple;
       welcomeText = makeWelcomeText ''
-        Now you have a basic Rust project..
+        Now you have a basic Rust project o/
 
-        Run `cargo init` to start, and do something cool!
+        👉 Run `cargo init` to start, and do something cool!
       '';
     };
 
@@ -34,9 +34,9 @@
       description = "A basic Rust project setup using naersk (run `cargo init` to start!)";
       path = ./rust-naersk;
       welcomeText = makeWelcomeText ''
-        Now you have a basic Rust project.. (using naersk)
+        Now you have a basic Rust project (using naersk) o/
 
-        Run `cargo init` to start, and do something cool!
+        👉 Run `cargo init` to start, and do something cool!
       '';
     };
   };
