@@ -35,9 +35,9 @@
       '';
     };
 
-    templates.rust-simple = {
+    templates.rust-nixpkgs = {
       description = "A basic Rust project setup, using nixpkgs builder";
-      path = ./rust-simple;
+      path = ./rust-nixpkgs;
       welcomeText = ''
         Now you have a basic Rust project (using nixpkgs builder) o/
 
