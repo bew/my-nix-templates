@@ -66,5 +66,21 @@
         }}
       '';
     };
+
+    templates.rust-rust-overlay = {
+      description = "A basic Rust project setup, using the rust-overlay builder";
+      path = ./rust-rust-overlay;
+      welcomeText = ''
+        Now you have a basic Rust project (using rust-overlay builder) o/
+
+        👉 Now you can...
+
+        ${whatsNext {
+          mainSteps = [
+            "Run `cargo init` to bootstrap the sources (creates Cargo.toml, Cargo.lock, src/)"
+          ];
+        }}
+      '';
+    };
   };
 }
