@@ -15,7 +15,9 @@
         packages.default = pkgs.hello;
 
         devshells.default =  {
-          packages = with pkgs; [ /* ... */ ];
+          packages = [
+            pkgs.hello # example 😉
+          ];
         };
       };
     })

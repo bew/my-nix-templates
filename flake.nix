@@ -7,11 +7,11 @@
     nixpkgs-lib-only.url = "github:nix-community/nixpkgs.lib";
   };
 
-  outputs = inputs: let
+  outputs = { self, ... }@inputs: let
     lib = inputs.nixpkgs-lib-only.lib;
     defaultPreSteps = [
       ''Setup git''
-      ''(Setup direnv with e.g. `echo "use flake" > .envrc`)''
+      ''Setup the devshell via direnv with e.g. `echo "use flake" > .envrc`''
     ];
     defaultPostSteps = [ ''.. and do something cool! 🚀'' ];
     whatsNext = {
@@ -23,15 +23,33 @@
       in lib.concatMapStringsSep "\n" (s: "- ${s}") (allSteps)
     );
   in {
-    templates.default = {
-      description = "A basic project bootstrap";
+    templates.default = self.templates.devshell-simple;
+
+    templates.devshell-simple = {
+      description = "A basic devshell setup";
+      path = ./devshell-simple;
+      welcomeText = ''
+        Now you have a basic devshell for your project o/
+
+        👉 Now you can...
+
+        ${whatsNext {
+          mainSteps = ["Run `hello` to test it out!"];
+        }}
+      '';
+    };
+
+    templates.devshell-project = {
+      description = "A basic flake-parts + devshell setup";
       path = ./default;
       welcomeText = ''
         Now you have a basic project o/
 
         👉 Now you can...
 
-        ${whatsNext {}}
+        ${whatsNext {
+          mainSteps = ["Run `hello` to test it out!"];
+        }}
       '';
     };
 
